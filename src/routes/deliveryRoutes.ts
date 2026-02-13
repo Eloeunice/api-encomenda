@@ -9,9 +9,9 @@ const deliveriesController = new DeliveriesController();
 
 deliveriesRoutes.use(ensureAuthenticationMiddleware.handle)
 
-deliveriesRoutes.post("/", (req, res) => {
-    return res.status(201).json({message : "Delivery created"});
-})
+deliveriesRoutes.post("/", deliveriesController.create);
+deliveriesRoutes.get("/", deliveriesController.getAll);
+deliveriesRoutes.patch("/:id/status", deliveriesController.update);
 
 
 export default deliveriesRoutes
