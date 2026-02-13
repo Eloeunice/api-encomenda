@@ -7,8 +7,15 @@ const deliveryLogsRoutes = Router();
 const ensureAuthenticationMiddleware = new EnsureAuthenticationMiddleware();
 const deliveryLogsController = new DeliveryLogsController();
 
+deliveryLogsRoutes.post(
+  "/",
+  ensureAuthenticationMiddleware.handle,
+  deliveryLogsController.create,
+);
+deliveryLogsRoutes.get(
+  "/:delivery_id/show",
+  ensureAuthenticationMiddleware.handle,
+  deliveryLogsController.show,
+);
 
-deliveryLogsRoutes.post("/", ensureAuthenticationMiddleware.handle, deliveryLogsController.create);
-deliveryLogsRoutes.get("/:delivery_id/show", ensureAuthenticationMiddleware.handle, deliveryLogsController.show);
-
-export default deliveryLogsRoutes
+export default deliveryLogsRoutes;

@@ -12,5 +12,4 @@ routes.use("/sessions", sessionsRoutes);
 routes.use("/deliveries", deliveriesRoutes);
 routes.use("/delivery-logs", deliveryLogsRoutes);
 
-
 export default routes;
