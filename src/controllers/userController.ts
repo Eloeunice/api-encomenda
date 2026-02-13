@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { prisma } from "../database/prisma.js";
 import {hash} from "bcrypt";
 import z from "zod";
 
@@ -13,15 +14,25 @@ export class UserController {
         })
         const { name, email, password } = bodySchema.parse(req.body);
 
+        const userExists = await prisma.findByEmail(email);
+
+        if (userExists) {
+            return res.status(400).json({
+                message: "User already exists"
+            })
+        }
+
+        const hashedPassword = await hash(password, 8);
+
         const user = {
             name,
             email,
-            password
+            hashedPassword
         }
 
-        const userCreated =await UserService.create(user);
+        const userCreated = await prisma.create(user);
 
-        return res.status(201).json(userCreated);
+        return res.status(201).json({message : "User created"});
     }
 
     async update(req: Request, res: Response) {
@@ -35,7 +46,7 @@ export class UserController {
         password
     }
 
-    const userUpdated = await UserService.update(id, data)
+    const userUpdated = await prisma.update(id, data)
 
     return res.status(200).json(userUpdated)
 
@@ -44,7 +55,7 @@ export class UserController {
     async delete(req: Request, res: Response) {
         const {id} = req.user.id // não existe ainda mas vamos retirar com o middleware de autenticação
 
-        await UserService.delete(id)
+        await prisma.delete(id)
 
         return res.status(204).json()
     }
