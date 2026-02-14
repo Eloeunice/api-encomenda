@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../database/prisma.js";
+import prisma from "../database/prisma.js";
 import { z } from "zod";
 
 class DeliveriesController {
@@ -10,7 +10,7 @@ class DeliveriesController {
     });
     const { user_id, description } = bodySchema.parse(req.body);
 
-    await prisma.delivery.create({ data: { user_id, description } });
+    await prisma.delivery.create({ data: { userId: user_id, description } });
 
     return res.status(201).json({ message: "Delivery created" });
   }
@@ -42,7 +42,7 @@ class DeliveriesController {
 
     await prisma.deliveryLog.create({
       data: {
-        delivery_id: id,
+        deliveryId: id,
         description: `Delivery status updated to ${status}`,
       },
     });

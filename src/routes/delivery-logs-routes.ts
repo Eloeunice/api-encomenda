@@ -1,20 +1,19 @@
 import { Router } from "express";
 import DeliveryLogsController from "../controllers/delivery-logs-controller.js";
 
-import { EnsureAuthenticationMiddleware } from "../middlewares/ensure-authentication.js";
+import EnsureAuthenticationMiddleware from "../middlewares/ensure-authentication.js";
 
 const deliveryLogsRoutes = Router();
-const ensureAuthenticationMiddleware = new EnsureAuthenticationMiddleware();
 const deliveryLogsController = new DeliveryLogsController();
 
 deliveryLogsRoutes.post(
   "/",
-  ensureAuthenticationMiddleware.handle,
+  EnsureAuthenticationMiddleware,
   deliveryLogsController.create,
 );
 deliveryLogsRoutes.get(
   "/:delivery_id/show",
-  ensureAuthenticationMiddleware.handle,
+  EnsureAuthenticationMiddleware,
   deliveryLogsController.show,
 );
 

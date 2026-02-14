@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../database/prisma.js";
+import prisma from "../database/prisma.js";
 import { z } from "zod";
 
 class DeliveryLogsController {
@@ -31,7 +31,7 @@ class DeliveryLogsController {
       });
     }
 
-    await prisma.deliveryLog.create({ data: { delivery_id, description } });
+    await prisma.deliveryLog.create({ data: { deliveryId: delivery_id, description } });
 
     return res.status(201).json({ message: "Delivery log created" });
   }
@@ -45,7 +45,7 @@ class DeliveryLogsController {
 
     const delivery = await prisma.delivery.findUnique({
       where: { id: delivery_id },
-      include: { logs: true, user: true },
+      include: { deliveryLog: true, user: true },
     });
 
     if (req.user.role === "customer" && delivery.userId !== req.user.id) {

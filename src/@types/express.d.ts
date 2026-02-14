@@ -2,6 +2,7 @@
 import { Request } from "express";
 interface IUser {
   id: string;
+  role?: string;
 }
 
 declare global {

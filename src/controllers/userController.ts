@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../database/prisma.js";
+import prisma from "../database/prisma.js";
 import { hash } from "bcrypt";
 import z from "zod";
 
@@ -12,7 +12,7 @@ export class UserController {
     });
     const { name, email, password } = bodySchema.parse(req.body);
 
-    const userExists = await prisma.findByEmail(email);
+    const userExists = await prisma.user.findUnique({ where: { email } });
 
     if (userExists) {
       return res.status(400).json({
@@ -22,13 +22,9 @@ export class UserController {
 
     const hashedPassword = await hash(password, 8);
 
-    const user = {
-      name,
-      email,
-      hashedPassword,
-    };
-
-    const userCreated = await prisma.create(user);
+    await prisma.user.create({
+      data: { name, email, password: hashedPassword },
+    });
 
     return res.status(201).json({ message: "User created" });
   }

@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/AppError.js";
-import { verify } from "jsonwebtoken";
+import verify from "jsonwebtoken";
 import { env } from "../env.js";
 
 function EnsureAuthenticationMiddleware(
@@ -25,8 +25,8 @@ function EnsureAuthenticationMiddleware(
   if (!userId) {
     throw new AppError("Unauthorized", 401);
   }
-  // Se o token for valido, eu vou armazenar o user no request
-  req.user = { id: userId };
+  const role = typeof decoded === "object" && "role" in decoded ? decoded.role : undefined;
+  req.user = { id: userId, role: role as string | undefined };
   next(); // Passa para a próxima função (o controller da rota)
 }
 
