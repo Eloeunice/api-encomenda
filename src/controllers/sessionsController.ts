@@ -25,7 +25,7 @@ class SessionsController {
       });
     }
 
-    const { secret, expiresIn } = authConfig.jwt;
+    const { secret } = authConfig.jwt;
 
     const options: SignOptions = {
       subject: String(user.id),
