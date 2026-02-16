@@ -8,7 +8,7 @@
     "test:dev": "NODE_OPTIONS='--experimental-vm-modules' npx jest --watchAll --runInBand",
     "dev": "tsx watch --env-file .env src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsup",
+    "build": "prisma generate && tsup && cp src/generated/prisma/*.node dist/generated/prisma/ 2>/dev/null || true",
     "eslint": "npx eslint . --fix",
     "prettier": "npx prettier --write ."
   },
