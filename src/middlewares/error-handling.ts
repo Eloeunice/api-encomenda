@@ -24,4 +24,8 @@ export function errorHandling(
   return res.status(500).json({
     message: "Internal server error",
   });
+
+  next();
 }
+
+export default errorHandling;

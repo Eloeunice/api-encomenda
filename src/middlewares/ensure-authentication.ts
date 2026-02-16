@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/AppError.js";
-import verify from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { env } from "../env.js";
 
 function EnsureAuthenticationMiddleware(
@@ -16,7 +16,7 @@ function EnsureAuthenticationMiddleware(
     throw new AppError("Unauthorized", 401); // Se não há token, não autorizado
   }
   // uso o verify para garantir que o token seja valido
-  const decoded = verify(token, env.JWT_SECRET);
+  const decoded = jwt.verify(token, env.JWT_SECRET);
   if (typeof decoded === "string") {
     throw new AppError("Unauthorized", 401);
   }
