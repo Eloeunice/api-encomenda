@@ -8,7 +8,7 @@
     "test:dev": "NODE_OPTIONS='--experimental-vm-modules' npx jest --watchAll --runInBand",
     "dev": "tsx watch --env-file .env src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsup src/**/*.ts",
+    "build": "tsup",
     "eslint": "npx eslint . --fix",
     "prettier": "npx prettier --write ."
   },
